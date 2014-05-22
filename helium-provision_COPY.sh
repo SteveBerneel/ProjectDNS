@@ -2,17 +2,18 @@
 # provision.sh -- BIND DNS helium master
 
 sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
-
-# Install git, nano, bind
-sudo yum install -y git nano bind bind-utils bind-libs
-
 # sudo yum update -y
 
-# Install Bats and create bats test script
+sudo yum install -y git nano
 sudo su root
 git clone https://github.com/sstephenson/bats.git
 bats/install.sh /usr/local
 
+# Installation of BIND
+sudo yum install -y bind bind-utils bind-libs
+
+
+# create bats test script
 //{
 cat > helium.chem.net.bats << 'EOF'
 #! /usr/bin/env bats
@@ -260,6 +261,10 @@ EOF
 
 //}
 
+
+# Go to root user
+sudo su root 
+
 #45  Give named.conf the correct permissions and set group to root
 chmod 644 /etc/named.conf
 chgrp root /etc/named.conf
@@ -289,15 +294,14 @@ cat > /etc/named.conf << EOF
 //
 
 options {
-        listen-on port 53 { 127.0.0.1; 192.168.64.2; };
+        listen-on port 53 { 127.0.0.1; };
         listen-on-v6 port 53 { ::1; };
         directory "/var/named"; 
         dump-file "/var/named/data/cache_dump.db"; 
         statistics-file "/var/named/data/named_stats.txt"; 
         memstatistics-file "/var/named/data/named_mem_stats.txt"; 
         allow-query		{ localhost; localnets;  192.168.0.0/16; };
-        allow-transfer  { localhost; 192.168.64.3; };
-		recursion yes; 
+        recursion yes; 
         dnssec-enable yes; 
         dnssec-validation yes; 
         dnssec-lookaside auto;
@@ -322,6 +326,7 @@ zone "." IN {
 zone "chem.net" IN {                    # Zone definition
         type master;
         file "chem.net";
+        allow-transfer { 192.168.64.3; };
         allow-update { none; };
 };
 

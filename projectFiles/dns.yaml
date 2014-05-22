@@ -1,0 +1,31 @@
+---
+# Network
+network::ip   : '192.168.64.0'
+network::mask : '255.255.255.0'
+network::cidr : '/24'
+
+# Hosts with fixed id
+hydrogen::ip  : '192.168.64.1' # = host system
+helium::ip    : '192.168.64.2' # DNS1
+lithium::ip   : '192.168.64.3' # DNS2
+beryllium::ip : '192.168.64.4' # DHCP
+boron::ip     : '192.168.64.5' # Web server
+carbon::ip    : '192.168.64.6' # Mail server
+nitrogen::ip  : '192.168.64.7' # FTP server
+oxygen::ip    : '192.168.64.8'
+fluorine::ip  : '192.168.64.9'
+
+# DHCP
+dhcp::default_gateway : '192.168.64.1' # Won't actually work
+dhcp::host_range : '192.168.64.101 192.168.64.254'
+dhcp::hosts : 
+    neon :  # Box for acceptance testing
+        mac : '08:00:27:70:8d:b3'
+        ip  : '192.168.64.10'
+
+# DNS
+dns::domain : 'chem.net'
+dns::reverse_domain : '64.168.192.in-addr.arpa'
+dns::forwarder : '10.0.2.3'
+dns::listen_on_addr : 'any'
+dns::allow_query : 'localnets'
