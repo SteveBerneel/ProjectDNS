@@ -13,7 +13,7 @@ sudo su root
 git clone https://github.com/sstephenson/bats.git
 bats/install.sh /usr/local
 
-cat > /tmp/test/helium.chem.net.bats << 'EOF'
+cat > helium.chem.net.bats << 'EOF'
 #! /usr/bin/env bats
 # Vim: set ft=sh
 #
