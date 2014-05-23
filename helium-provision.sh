@@ -35,7 +35,7 @@ options {
         dump-file "/var/named/data/cache_dump.db"; 
         statistics-file "/var/named/data/named_stats.txt"; 
         memstatistics-file "/var/named/data/named_mem_stats.txt"; 
-        allow-query     { localhost; localnets; 192.168.0.0/16; };
+        allow-query     { any; };
         allow-transfer  { localhost; 192.168.64.3; };
         recursion yes; 
         dnssec-enable yes; 
