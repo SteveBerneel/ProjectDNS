@@ -12,6 +12,7 @@ sudo yum update -y
 sudo su root
 git clone https://github.com/sstephenson/bats.git
 bats/install.sh /usr/local
+
 cat > /tmp/test/helium.chem.net.bats << 'EOF'
 #! /usr/bin/env bats
 # Vim: set ft=sh
@@ -253,7 +254,6 @@ result="$(host ${NET_IP}.10 ${IP} | grep pointer)"
 [ "${result}" = "10.${REVERSE_ZONE} domain name pointer neon.chem.net." ]
 }
 EOF
-//}
 
 #45  Give named.conf the correct permissions and set group to root
 chmod 644 /etc/named.conf
