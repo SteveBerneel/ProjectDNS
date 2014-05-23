@@ -10,3 +10,11 @@ Setup and configuration BIND DNS on CentOS 6
 
 Run the test script as root
  sudo bats/bin/bats /tmp/test/helium.chem.net.bats
+
+Instructions   (windows)
+============
+
+1. open shell 
+2. type: git clone -b Version1 https://github.com/SteveBerneel/ProjectDNS.git
+3. type: cd ProjectDNS
+4. type: vagrant up
