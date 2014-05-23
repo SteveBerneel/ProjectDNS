@@ -6,7 +6,7 @@
 
 IP=192.168.64.2
 
-@test "my IP address should be /${IP}" {
+@test "my IP address should be ${IP}" {
 result="$(facter ipaddress_eth1)"
 [ "${result}" = "${IP}" ]
 }
@@ -39,9 +39,9 @@ ZONE_FILE=/var/named/${ZONE}
 REVERSE_ZONE=64.168.192.in-addr.arpa
 REVERSE_ZONE_FILE=/var/named/${REVERSE_ZONE}
 
-@test "/${CONF} should exist and have correct permissions" {
-[ -f "/${CONF}" ]
-result="/$(stat -c %U:%G:%a ${CONF})"
+@test "${CONF} should exist and have correct permissions" {
+[ -f "${CONF}" ]
+result="$(stat -c %U:%G:%a ${CONF})"
 [ "${result}" = "root:root:644" ]
 }
 
@@ -49,7 +49,7 @@ result="/$(stat -c %U:%G:%a ${CONF})"
 named-checkconf
 }
 
-@test "/${CONF} should contain a zone definition" {
+@test "${CONF} should contain a zone definition" {
 result="$(grep zone.*${ZONE} ${CONF})"
 [ -n "${result}" ]
 }
@@ -237,4 +237,3 @@ result="$(host ${NET_IP}.9 ${IP} | grep pointer)"
 result="$(host ${NET_IP}.10 ${IP} | grep pointer)"
 [ "${result}" = "10.${REVERSE_ZONE} domain name pointer neon.chem.net." ]
 }
-

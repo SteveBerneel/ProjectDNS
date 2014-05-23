@@ -6,15 +6,13 @@ sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 # Install git, nano, bind
 sudo yum install -y git nano bind bind-utils bind-libs
 
-# sudo yum update -y
+sudo yum update -y
 
-# Install Bats and create bats test script
+# Install Bats
 sudo su root
 git clone https://github.com/sstephenson/bats.git
 bats/install.sh /usr/local
-
-//{
-cat > helium.chem.net.bats << 'EOF'
+cat > /tmp/test/helium.chem.net.bats << 'EOF'
 #! /usr/bin/env bats
 # Vim: set ft=sh
 #
@@ -255,14 +253,13 @@ result="$(host ${NET_IP}.10 ${IP} | grep pointer)"
 [ "${result}" = "10.${REVERSE_ZONE} domain name pointer neon.chem.net." ]
 }
 EOF
-
 //}
 
 #45  Give named.conf the correct permissions and set group to root
 chmod 644 /etc/named.conf
 chgrp root /etc/named.conf
 
-# Create named.conf file 
+#  Create named.conf file 
 //{
 cat > /etc/named.conf << EOF
 // 
@@ -407,17 +404,5 @@ chgrp named /var/named/64.168.192.in-addr.arpa
 service named start
 chkconfig named on
 
-# to run the test script 
-#   bats/bin/bats /tmp/test/helium.chem.net.bats
-bats/bin/bats helium.chem.net.bats
-
-# nano -w option detects punctuation as part of word for word boundaries
-# to write in the named.conf file
-#nano -w /etc/named.conf
-
-
-
-
-
-
-
+# to run the test script
+#  bats/bin/bats /tmp/test/helium.chem.net.bats

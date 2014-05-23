@@ -6,7 +6,7 @@ sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 # Install git, nano, bind
 sudo yum install -y git nano bind bind-utils bind-libs
 
-#sudo yum update -y
+ sudo yum update -y
 
 chmod 644 /etc/named.conf
 chgrp root /etc/named.conf
