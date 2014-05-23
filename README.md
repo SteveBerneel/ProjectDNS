@@ -9,5 +9,5 @@ Setup and configuration BIND DNS on CentOS 6
 2 A SlaveDNS machine called Lithium
 
 Run the test script as root
- bats/bin/bats helium.chem.net.bats
+ sudo bats/bin/bats helium.chem.net.bats
 
