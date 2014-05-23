@@ -13,7 +13,7 @@ ProjectDNS
 Instructions   (windows)
 ============
 
-1. open shell 
+1. open git bash
 2. type: git clone https://github.com/SteveBerneel/ProjectDNS.git
 3. type: cd ProjectDNS
 4. type: vagrant up 
