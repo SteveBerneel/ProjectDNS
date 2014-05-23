@@ -19,6 +19,5 @@ Instructions   (windows)
 4. type: vagrant up 
 5. type: vagrant ssh helium for MasterDNS or vagrant ssh lithium for SlaveDNS machine
 
-* Run the test script as root
- - type: sudo su root
- - type: bats/bin/bats helium.chem.net.bats
+* Run the test script as root in the MasterDNS machine Helium
+ - type: sudo bats/bin/bats helium.chem.net.bats
