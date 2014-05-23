@@ -15,6 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.network :private_network,
         ip: host[:ip],
         netmask: '255.255.255.0'
+	  node.vm.synced_folder "ProjectFiles", "/tmp/test"
 
       node.vm.provider :virtualbox do |vb|
         vb.name = host[:name]

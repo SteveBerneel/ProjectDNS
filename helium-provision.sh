@@ -254,8 +254,6 @@ result="$(host ${NET_IP}.9 ${IP} | grep pointer)"
 result="$(host ${NET_IP}.10 ${IP} | grep pointer)"
 [ "${result}" = "10.${REVERSE_ZONE} domain name pointer neon.chem.net." ]
 }
-
-
 EOF
 
 //}
@@ -264,20 +262,7 @@ EOF
 chmod 644 /etc/named.conf
 chgrp root /etc/named.conf
 
-#54  Put a zone definition in /etc/named.conf 
-# zone "chem.net" IN {   
-	# type master;   
-	# file "chem.net";   
-	# allow-update { none; }; 
-# };
-
-#59  Put a reverse zone definition in /etc/named.conf 
-# zone "1.168.192.in-addr.arpa" IN {     # REVERSE Zone file and configuration
-        # type master;
-        # file "64.168.192.in-addr.arpa";
-        # allow-update { none; };
-# };
-
+# Create named.conf file 
 //{
 cat > /etc/named.conf << EOF
 // 
@@ -295,9 +280,9 @@ options {
         dump-file "/var/named/data/cache_dump.db"; 
         statistics-file "/var/named/data/named_stats.txt"; 
         memstatistics-file "/var/named/data/named_mem_stats.txt"; 
-        allow-query		{ localhost; localnets;  192.168.0.0/16; };
+        allow-query     { localhost; localnets; 192.168.0.0/16; };
         allow-transfer  { localhost; 192.168.64.3; };
-		recursion yes; 
+        recursion yes; 
         dnssec-enable yes; 
         dnssec-validation yes; 
         dnssec-lookaside auto;
@@ -354,6 +339,7 @@ $TTL 86400
 @       IN  NS      lithium.chem.net.
 @       IN  A       192.168.64.2
 @       IN  A       192.168.64.3
+        IN  MX   10 carbon.chem.net.
 ; Resolve nameserver hostnames to IP
 hydrogen    IN  A       192.168.64.1  
 helium      IN  A       192.168.64.2
@@ -364,13 +350,21 @@ carbon      IN  A       192.168.64.6
 nitrogen    IN  A       192.168.64.7  
 oxygen      IN  A       192.168.64.8
 fluorine    IN  A       192.168.64.9
+neon        IN  A       192.168.64.10
+ns1        IN  CNAME   helium.chem.net.
+ns2        IN  CNAME   lithium.chem.net.
+www        IN  CNAME   boron.chem.net.
+ftp        IN  CNAME   nitrogen.chem.net.
+mail-in    IN  CNAME   carbon.chem.net.
+mail-out   IN  CNAME   carbon.chem.net.
+_ftp._tcp       IN  SRV    10 0 21 nitrogen.chem.net.
 EOF
 //}
-
 chmod 640 /var/named/chem.net
 chgrp named /var/named/chem.net
 
 #71  Create reverse zone file for chem.net and set correct permissions and group
+//{
 cat > /var/named/64.168.192.in-addr.arpa << 'EOF'
 $ORIGIN 64.168.192.in-addr.arpa.
 $TTL 86400
@@ -393,6 +387,7 @@ carbon      IN  A      192.168.64.6
 nitrogen    IN  A      192.168.64.7
 oxygen      IN  A      192.168.64.8
 fluorine    IN  A      192.168.64.9
+neon        IN  A      192.168.64.10
 1      IN  PTR    hydrogen.chem.net.
 2      IN  PTR    helium.chem.net.
 3      IN  PTR    lithium.chem.net.
@@ -402,44 +397,19 @@ fluorine    IN  A      192.168.64.9
 7      IN  PTR    nitrogen.chem.net.
 8      IN  PTR    oxygen.chem.net.
 9      IN  PTR    fluorine.chem.net.
+10     IN  PTR    neon.chem.net.
 EOF
-
+//}
 chmod 640 /var/named/64.168.192.in-addr.arpa
 chgrp named /var/named/64.168.192.in-addr.arpa
-
-#88  Make port53 listening on TCP
-
-#93  Make port53 listening on UDP
 
 #97  make named running
 service named start
 chkconfig named on
 
-#------------------------------------------
-#
-#/etc/resolve.conf
-#search chem.net
-#nameserver 192.168.64.2
-#
-#--------------------------
-#eth0 bekijken??
-
-
-
-
-
-#------------------------------------------
-
-
-#104  hydrogen should return the correct address
-
-
-
-
 # to run the test script 
-#   bats/bin/bats helium.chem.net.bats
-
-
+#   bats/bin/bats /tmp/test/helium.chem.net.bats
+bats/bin/bats helium.chem.net.bats
 
 # nano -w option detects punctuation as part of word for word boundaries
 # to write in the named.conf file
