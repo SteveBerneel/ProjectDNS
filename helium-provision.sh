@@ -133,16 +133,6 @@ $TTL 86400
 @        IN  NS     helium.chem.net.
 @        IN  NS     lithium.chem.net.
 @        IN  PTR    chem.net.
-hydrogen    IN  A      192.168.64.1
-helium      IN  A      192.168.64.2
-lithium     IN  A      192.168.64.3
-beryllium   IN  A      192.168.64.4
-boron       IN  A      192.168.64.5
-carbon      IN  A      192.168.64.6
-nitrogen    IN  A      192.168.64.7
-oxygen      IN  A      192.168.64.8
-fluorine    IN  A      192.168.64.9
-neon        IN  A      192.168.64.10
 1      IN  PTR    hydrogen.chem.net.
 2      IN  PTR    helium.chem.net.
 3      IN  PTR    lithium.chem.net.
